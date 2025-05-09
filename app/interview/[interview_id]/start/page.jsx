@@ -119,11 +119,7 @@ Ensure the interview remains focused on ${usersInformation?.interviewData?.JobPo
 
     return () => {
       // clean up on unmount
-      vapi.off("message");
-      vapi.off("call-end");
-      vapi.off("call-start");
-      vapi.off("message");
-      vapi.off("message");
+
       vapi.stop();
       vapiRef.current = null;
     };
@@ -148,10 +144,10 @@ Ensure the interview remains focused on ${usersInformation?.interviewData?.JobPo
     });
     console.log(result);
 
-    // const storingResult = result.data.content
-    //   .replace("```json", "")
-    //   .replace("```", "");
-    // console.log(storingResult);
+    const storingResult = result.data.content
+      .replace("```json", "")
+      .replace("```", "");
+    console.log(storingResult);
     console.log(result.data.content);
     console.log(usersInformation.useremail);
 
