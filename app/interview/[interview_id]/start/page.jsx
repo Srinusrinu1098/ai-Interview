@@ -2,17 +2,25 @@
 
 import { UserDetailsContext } from "@/context/UserDetailsContext";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Mic, Phone } from "lucide-react";
+import { Loader2Icon, Mic, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Vapi from "@vapi-ai/web";
 import { toast } from "sonner";
+import axios from "axios";
+import { supabase } from "@/services/supeabaseClient";
+import { useParams, useRouter } from "next/navigation";
 
 function InterviewStart() {
   const { DetailsOfQuestions } = useContext(UserDetailsContext);
   const [usersInformation, setUserInformation] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const vapiRef = useRef(null); // persist Vapi instance
   const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_URL);
+  const [conv, setconve] = useState();
+  const { interview_id } = useParams();
+  const router = useRouter();
 
   // Store details in localStorage and set user info
   useEffect(() => {
@@ -31,8 +39,7 @@ function InterviewStart() {
     if (!usersInformation || vapiRef.current) return;
 
     vapiRef.current = vapi;
-
-    let questionsListstoPromt = "Ok first introduce yourself,";
+    let questionsListstoPromt = "introduce yourself,";
     usersInformation?.interviewData?.QuestionLists.forEach((each) => {
       questionsListstoPromt += each.question + ", ";
     });
@@ -85,12 +92,38 @@ Ensure the interview remains focused on ${usersInformation?.interviewData?.JobPo
 
     vapi.on("call-start", () => {
       toast("Interview Started", {
-        style: { backgroundColor: "green" },
+        style: { backgroundColor: "green", color: "white" },
       });
+    });
+
+    vapi.on("speech-start", () => {
+      console.log("Assistant speech has started.");
+      setLoading1(false);
+    });
+
+    vapi.on("speech-end", () => {
+      console.log("Assistant speech has ended.");
+      setLoading1(true);
+    });
+
+    vapi.on("message", (message) => {
+      console.log(message.conversation);
+      if (message.conversation != undefined) {
+        setconve(message.conversation);
+      }
+    });
+    vapi.on("call-end", () => {
+      console.log("Call has ended.");
+      getTheSummery();
     });
 
     return () => {
       // clean up on unmount
+      vapi.off("message");
+      vapi.off("call-end");
+      vapi.off("call-start");
+      vapi.off("message");
+      vapi.off("message");
       vapi.stop();
       vapiRef.current = null;
     };
@@ -101,12 +134,39 @@ Ensure the interview remains focused on ${usersInformation?.interviewData?.JobPo
       vapi.say("Our time's up, goodbye!", true);
       vapiRef.current.stop();
       toast("Interview Stopped", {
-        style: { backgroundColor: "green" },
+        style: { backgroundColor: "green", color: "white" },
       });
     }
   };
 
   if (!usersInformation) return null;
+
+  const getTheSummery = async () => {
+    setLoading(true);
+    const result = await axios.post("/api/interviewFeedback", {
+      conv,
+    });
+
+    const storingResult = result.data.content
+      .replace("```json", "")
+      .replace("```", "");
+
+    const { data, error } = await supabase
+      .from("interview-feedbacks")
+      .insert([
+        {
+          username: usersInformation.username,
+          useremail: usersInformation.useremail,
+          interview_id: interview_id,
+          feedback: JSON.parse(storingResult),
+          recommndation: false,
+        },
+      ])
+      .select();
+    setLoading(true);
+    console.log(usersInformation.useremail);
+    router.push(`/interview/${interview_id}/completed`);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-100 to-white flex flex-col items-center justify-center p-4 space-y-6">
@@ -117,7 +177,7 @@ Ensure the interview remains focused on ${usersInformation?.interviewData?.JobPo
         <div className="bg-white rounded-2xl shadow-md p-6 text-center">
           <h2 className="text-xl font-semibold mb-4">AI Agent</h2>
           <div className="h-48 bg-gray-200 rounded-xl flex flex-col gap-2 items-center justify-center">
-            <div className="animate-pulse">
+            <div className={`${!loading1 && "animate-pulse"}`}>
               <Image
                 src="/ai1.jpg"
                 alt="AI Agent"
@@ -133,13 +193,15 @@ Ensure the interview remains focused on ${usersInformation?.interviewData?.JobPo
         {/* Interviewer */}
         <div className="bg-white rounded-2xl shadow-md p-6 text-center">
           <h2 className="text-xl font-semibold mb-4">Interviewer</h2>
-          <div className="h-48 bg-gray-200 rounded-xl flex flex-col gap-2 items-center justify-center">
+          <div
+            className={`h-48 bg-gray-200 rounded-xl flex flex-col gap-2 items-center justify-center `}
+          >
             <Image
               src="/profile.png"
               alt="Interviewer"
               width={100}
               height={100}
-              className="rounded-full"
+              className={`rounded-full ${loading1 && "animate-pulse"}`}
             />
             <span className="font-mono font-bold">
               {usersInformation?.username?.toUpperCase()}
@@ -154,10 +216,14 @@ Ensure the interview remains focused on ${usersInformation?.interviewData?.JobPo
         </Button>
         <Button
           variant="default"
-          className="bg-green-500 hover:bg-red-500"
+          className="bg-green-500 hover:bg-red-500 cursor-pointer"
           onClick={endTheCall}
         >
-          <Phone className="w-5 h-5" />
+          {loading ? (
+            <Loader2Icon className="w-5 h-5 animate-spin" />
+          ) : (
+            <Phone className="w-5 h-5" />
+          )}
         </Button>
       </div>
 
