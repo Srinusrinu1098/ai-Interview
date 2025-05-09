@@ -18,8 +18,9 @@ import Link from "next/link";
 
 function InterviewLink({ interview_id, jobDetails, questions }) {
   console.log(jobDetails);
-  console.log(process.env.NEXT_INTERVIEW_URL);
+
   const url = process.env.NEXT_PUBLIC_INTERVIEW_URL + interview_id;
+  console.log(url);
 
   const { user } = useUser();
   console.log(user);
