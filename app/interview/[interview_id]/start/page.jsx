@@ -146,10 +146,14 @@ Ensure the interview remains focused on ${usersInformation?.interviewData?.JobPo
     const result = await axios.post("/api/interviewFeedback", {
       conv,
     });
+    console.log(result);
 
-    const storingResult = result.data.content
-      .replace("```json", "")
-      .replace("```", "");
+    // const storingResult = result.data.content
+    //   .replace("```json", "")
+    //   .replace("```", "");
+    // console.log(storingResult);
+    console.log(result.data.content);
+    console.log(usersInformation.useremail);
 
     const { data, error } = await supabase
       .from("interview-feedbacks")
@@ -164,7 +168,7 @@ Ensure the interview remains focused on ${usersInformation?.interviewData?.JobPo
       ])
       .select();
     setLoading(true);
-    console.log(usersInformation.useremail);
+
     router.push(`/interview/${interview_id}/completed`);
   };
 
