@@ -97,23 +97,19 @@ Ensure the interview remains focused on ${usersInformation?.interviewData?.JobPo
     });
 
     vapi.on("speech-start", () => {
-      console.log("Assistant speech has started.");
       setLoading1(false);
     });
 
     vapi.on("speech-end", () => {
-      console.log("Assistant speech has ended.");
       setLoading1(true);
     });
 
     vapi.on("message", (message) => {
-      console.log(message.conversation);
       if (message.conversation != undefined) {
         setconve(message.conversation);
       }
     });
     vapi.on("call-end", () => {
-      console.log("Call has ended.");
       getTheSummery();
     });
 
@@ -142,14 +138,10 @@ Ensure the interview remains focused on ${usersInformation?.interviewData?.JobPo
     const result = await axios.post("/api/interviewFeedback", {
       conv,
     });
-    console.log(result);
 
     const storingResult = result.data.content
       .replace("```json", "")
       .replace("```", "");
-    console.log(storingResult);
-    console.log(result.data.content);
-    console.log(usersInformation.useremail);
 
     const { data, error } = await supabase
       .from("interview-feedbacks")

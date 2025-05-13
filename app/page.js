@@ -9,7 +9,6 @@ import { useUser } from "./Providers";
 export default function Home() {
   const router = useRouter();
   const { user } = useUser();
-  console.log(user);
 
   const handleGetStarted = () => {
     if (user) {

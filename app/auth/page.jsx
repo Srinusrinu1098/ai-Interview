@@ -9,6 +9,11 @@ function Login() {
   const signInWithGoogle = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
+      options: {
+        queryParams: {
+          prompt: "select_account", // Forces Google to ask which account to use
+        },
+      },
     });
     if (error) {
       console.error("error", error.message);

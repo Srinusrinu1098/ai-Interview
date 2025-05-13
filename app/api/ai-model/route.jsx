@@ -9,7 +9,7 @@ export async function POST(req) {
     .replace("{{jobDescription}}", JobDescription)
     .replace("{{duration}}", duration)
     .replace("{{type}}", type);
-  console.log(Final_promt);
+
   try {
     const openai = new OpenAI({
       baseURL: "https://openrouter.ai/api/v1",

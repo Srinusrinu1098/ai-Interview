@@ -3,7 +3,7 @@
 import { useUser } from "@/app/Providers";
 import { UserDetailsContext } from "@/context/UserDetailsContext";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,16 +17,24 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { supabase } from "@/services/supeabaseClient";
 
 function WelcomeBack() {
-  const { user, setUser } = useUser();
+  const { user, setUser } = useContext(UserDetailsContext);
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
   const router = useRouter();
 
   const logoutUser = () => {
     setLogoutDialogOpen(true);
   };
-  const userLogout = () => {
+  const userLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      console.error("Logout error:", error);
+      return;
+    }
+
     setUser(null);
     router.push("/");
   };
