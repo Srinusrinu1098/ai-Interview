@@ -15,6 +15,7 @@ function Providers({ children }) {
         .from("Users")
         .select("*")
         .eq("email", user?.email);
+      console.log(user?.user_metadata?.picture);
 
       if (Users?.length == 0) {
         const { data, error } = await supabase.from("Users").insert([
@@ -26,11 +27,13 @@ function Providers({ children }) {
         ]);
 
         setUser(data);
+        console.log(data);
         return;
       }
       setUser(Users[0]);
     });
   };
+
   return (
     <UserDetailsContext.Provider
       value={{ user, setUser, DetailsOfQuestions, setDetailsOfQuestions }}

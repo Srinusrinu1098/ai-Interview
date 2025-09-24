@@ -150,11 +150,12 @@ Ensure the interview remains focused on ${usersInformation?.interviewData?.JobPo
           username: usersInformation.username,
           useremail: usersInformation.useremail,
           interview_id: interview_id,
-          feedback: JSON.parse(storingResult),
+          feedback: storingResult,
           recommndation: false,
         },
       ])
       .select();
+    console.log(data);
     setLoading(true);
 
     router.push(`/interview/${interview_id}/completed`);

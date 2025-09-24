@@ -81,8 +81,8 @@ function InterviewLink({ interview_id, jobDetails, questions }) {
       </div>
       <div className="border border-black  p-3 rounded-xl flex flex-col gap-2  w-full">
         <div className="flex justify-between items-center">
-          <h2 className="font-semibold text-[8px]">Interview Link</h2>
-          <h1 className="text-primary font-bold text-[4px] bg-blue-200 p-1 rounded-4xl">
+          <h2 className="font-semibold text-[14px]">Interview Link</h2>
+          <h1 className="text-red-500 font-bold text-[10px] bg-blue-200 p-1 rounded-4xl">
             valid for 30 days
           </h1>
         </div>
@@ -108,18 +108,18 @@ function InterviewLink({ interview_id, jobDetails, questions }) {
           />
 
           <div className="flex place-items-center gap-3 mt-2">
-            <h1 className="text-[8px] flex items-center ">
+            <h1 className="text-[14px] flex items-center ">
               <Clock10Icon className="h-3" />
               {jobDetails?.duration}
             </h1>
-            <h1 className="text-[8px] flex items-center">
+            <h1 className="text-[14px] flex items-center">
               <ListChecks className="h-3" />
               {questions?.length}
             </h1>
           </div>
 
           <div className="mt-3">
-            <h1 className="text-[8px] font-semibold">Share Via</h1>
+            <h1 className="text-[14px] font-semibold">Share Via</h1>
             <div className="flex gap-3 mt-2">
               <Button
                 onClick={() => handleOpen("whatsapp")}

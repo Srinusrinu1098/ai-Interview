@@ -8,6 +8,9 @@ import FeedbackSummary from "../../_components/FeedbackSummary"; // path to the 
 function FeedbackPage() {
   const { interview_id } = useParams();
   const [feedback, setFeedback] = useState(null);
+  const [RecommendationMsg, setRecommendationMsg] = useState("");
+  const [Recommendation, setRecommendation] = useState("");
+  const [ratings, setrating] = useState({});
 
   useEffect(() => {
     if (interview_id) getTheFeedback();
@@ -20,7 +23,12 @@ function FeedbackPage() {
       .eq("interview_id", interview_id);
 
     if (data && data[0]) {
-      const parsed = safeParseJSON(data[0]); // ensure feedback is valid JSON
+      const parsed = safeParseJSON(data[0]);
+      const parsedd = JSON.parse(data[0].feedback); // ensure feedback is valid JSON
+      setRecommendationMsg(parsedd["feedback"]["RecommendationMsg"]);
+      setRecommendation(parsedd["feedback"]["summary"]);
+      setrating(parsedd["feedback"]["rating"]);
+
       if (parsed) setFeedback(parsed);
     }
   };
@@ -42,7 +50,14 @@ function FeedbackPage() {
     );
   }
 
-  return <FeedbackSummary feedback={feedback} />;
+  return (
+    <FeedbackSummary
+      feedback={feedback}
+      RecommendationMsg={RecommendationMsg}
+      Recommendation={Recommendation}
+      ratings={ratings}
+    />
+  );
 }
 
 export default FeedbackPage;

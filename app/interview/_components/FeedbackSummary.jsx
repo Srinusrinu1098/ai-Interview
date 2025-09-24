@@ -2,16 +2,20 @@
 
 import { CheckCircle, XCircle } from "lucide-react";
 
-export default function FeedbackSummary({ feedback }) {
-  const recommendationMsg =
-    feedback.feedback?.Recommendation?.RecommendationMsg;
+export default function FeedbackSummary({
+  feedback,
+  RecommendationMsg,
+  Recommendation,
+  ratings,
+}) {
+  const recommendationMsg = RecommendationMsg;
   const rating = feedback.feedback.feedback?.rating;
-  const summary = feedback.feedback.feedback?.summary;
+  const summary = Recommendation;
 
   const isRecommended =
     recommendationMsg?.toLowerCase().includes("not recommended") === false;
 
-  const ratingBars = Object.entries(rating || {}).map(([skill, value]) => (
+  const ratingBars = Object.entries(ratings || {}).map(([skill, value]) => (
     <div key={skill}>
       <div className="flex justify-between gap-3 mb-1">
         <span className="capitalize text-[8px] font-medium text-gray-700">

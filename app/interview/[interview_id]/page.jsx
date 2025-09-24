@@ -89,7 +89,7 @@ export default function InterviewPage() {
           </h1>
           <p className="text-sm text-gray-500">
             Enter your details to begin with{" "}
-            <span className="text-red-400 animate-pulse font-bold">
+            <span className="text-green-400 animate-pulse font-bold">
               {details?.JobPoestion?.toUpperCase()}
             </span>{" "}
             Position

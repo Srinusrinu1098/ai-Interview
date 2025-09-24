@@ -74,7 +74,7 @@ function FormContainer({ onHandelFields, GoToNext }) {
           {InterviewType.map((type, index) => (
             <div
               key={index}
-              className={`text-sm mt-1 flex cursor-pointer hover:bg-blue-200  items-center text-[8px] border border-black w-[120px] rounded-2xl ${
+              className={`text-lg mt-1 flex cursor-pointer hover:bg-blue-200  items-center text-[16px] border border-black w-[180px] rounded-2xl ${
                 interviewType.includes(type.title) && "bg-blue-100 text-primary"
               }`}
               onClick={() => addToInterview(type.title)}

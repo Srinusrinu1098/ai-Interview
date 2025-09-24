@@ -126,7 +126,7 @@ function QuestionsList({ jobDetails, sendBackInfo }) {
             <h2 className="font-bold text-gray-500 font-serif">
               Generating AI-Powered Questions For You ❤️
             </h2>
-            <p className="text-[8px] font-semibold">
+            <p className="text-[14px] font-semibold">
               Our AI is crafting questions based on your job position.
             </p>
           </div>

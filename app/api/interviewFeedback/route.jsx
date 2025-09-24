@@ -16,7 +16,7 @@ export async function POST(req) {
       apiKey: process.env.NEXT_GENERATIVE_AI_KEY,
     });
     const completion = await openai.chat.completions.create({
-      model: "deepseek/deepseek-prover-v2:free",
+      model: "deepseek/deepseek-chat",
       messages: [{ role: "user", content: Final_promt }],
     });
 

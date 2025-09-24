@@ -23,6 +23,7 @@ function WelcomeBack() {
   const { user, setUser } = useContext(UserDetailsContext);
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
   const router = useRouter();
+  console.log(user);
 
   const logoutUser = () => {
     setLogoutDialogOpen(true);
@@ -53,7 +54,9 @@ function WelcomeBack() {
       {user && (
         <Image
           onClick={logoutUser}
-          src={user?.picture}
+          src={
+            "https://img.freepik.com/premium-vector/avatar-profile-icon-flat-style-male-user-profile-vector-illustration-isolated-background-man-profile-sign-business-concept_157943-38764.jpg?semt=ais_items_boosted&w=740"
+          }
           alt="profile"
           height={50}
           width={50}
