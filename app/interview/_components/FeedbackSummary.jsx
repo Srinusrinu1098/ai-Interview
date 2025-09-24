@@ -9,8 +9,9 @@ export default function FeedbackSummary({
   ratings,
 }) {
   const recommendationMsg = RecommendationMsg;
-  const rating = feedback.feedback.feedback?.rating;
+
   const summary = Recommendation;
+  console.log(summary);
 
   const isRecommended =
     recommendationMsg?.toLowerCase().includes("not recommended") === false;
