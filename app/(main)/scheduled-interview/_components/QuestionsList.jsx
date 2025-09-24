@@ -50,7 +50,7 @@ function QuestionsList({ jobDetails, sendBackInfo }) {
           }
         } catch (e) {
           // console.warn("Failed to parse JSON block:", e);
-          console.log(e);
+          
         }
       }
 
@@ -63,7 +63,7 @@ function QuestionsList({ jobDetails, sendBackInfo }) {
           }
         } catch (e) {
           // console.warn("Failed to parse full JSON string:", e);
-          console.log(e);
+          
         }
       }
 

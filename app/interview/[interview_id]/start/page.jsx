@@ -139,9 +139,17 @@ Ensure the interview remains focused on ${usersInformation?.interviewData?.JobPo
       conv,
     });
 
-    const storingResult = result.data.content
-      .replace("```json", "")
-      .replace("```", "");
+    let storingResult = result.data.content;
+    console.log(storingResult);
+
+    // Extract JSON inside curly braces
+    const jsonMatch = storingResult.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      storingResult = jsonMatch[0];
+    }
+
+    // Parse safely
+    const feedbackJSON = JSON.parse(storingResult);
 
     const { data, error } = await supabase
       .from("interview-feedbacks")
@@ -150,12 +158,12 @@ Ensure the interview remains focused on ${usersInformation?.interviewData?.JobPo
           username: usersInformation.username,
           useremail: usersInformation.useremail,
           interview_id: interview_id,
-          feedback: storingResult,
+          feedback: feedbackJSON,
           recommndation: false,
         },
       ])
       .select();
-    console.log(data);
+
     setLoading(true);
 
     router.push(`/interview/${interview_id}/completed`);

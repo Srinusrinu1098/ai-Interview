@@ -23,7 +23,7 @@ function WelcomeBack() {
   const { user, setUser } = useContext(UserDetailsContext);
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
   const router = useRouter();
-  console.log(user);
+ 
 
   const logoutUser = () => {
     setLogoutDialogOpen(true);

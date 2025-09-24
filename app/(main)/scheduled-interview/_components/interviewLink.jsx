@@ -17,13 +17,13 @@ import { FaWhatsapp } from "react-icons/fa";
 import Link from "next/link";
 
 function InterviewLink({ interview_id, jobDetails, questions }) {
-  console.log(jobDetails);
+ 
 
   const url = process.env.NEXT_PUBLIC_INTERVIEW_URL + interview_id;
-  console.log(url);
+  
 
   const { user } = useUser();
-  console.log(user);
+  
   const getTheVAlue = () => {
     return url;
   };

@@ -24,7 +24,8 @@ function FeedbackPage() {
 
     if (data && data[0]) {
       const parsed = safeParseJSON(data[0]);
-      const parsedd = JSON.parse(data[0].feedback); // ensure feedback is valid JSON
+
+      const parsedd = data[0].feedback; // ensure feedback is valid JSON
       setRecommendationMsg(parsedd["feedback"]["RecommendationMsg"]);
       setRecommendation(parsedd["feedback"]["summary"]);
       setrating(parsedd["feedback"]["rating"]);

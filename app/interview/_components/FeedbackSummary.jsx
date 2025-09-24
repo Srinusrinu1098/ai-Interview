@@ -11,7 +11,6 @@ export default function FeedbackSummary({
   const recommendationMsg = RecommendationMsg;
 
   const summary = Recommendation;
-  console.log(summary);
 
   const isRecommended =
     recommendationMsg?.toLowerCase().includes("not recommended") === false;
