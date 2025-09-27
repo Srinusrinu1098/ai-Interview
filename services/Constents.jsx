@@ -83,19 +83,41 @@ type: Technical/Behavioral/Experince/Problem Solving/Leaseship'
 }] 
  🎯 The goal is to create a structured, relevant, and time-optimized interview plan for a {{job Title}} role.`;
 
-export const Summery = `{{conversation}} 
-Depends on this Interview Conversation between assitant and user, but give me a strict feedback if he not performe well dont give a positive feedback
-Give me feedback for user interview. Give me rating out of 10 for technical Skills, Communication, Problem Solving, Experince. Also give me summery in 3 lines about the interview and one line to let me know whether is recommanded for hire or not with msg. Give me response in JSON format 
-{ 
-feedback:{ 
-rating:{ 
-techicalSkills:5, 
-communication:6, 
-problem Solving:4, 
-experince:7 
-}, 
-summery:<in 3 Line>, 
-Recommendation:", 
-RecommendationMsg:"
+export const Summery = `{{conversation}}
+
+You are an expert technical interviewer. Analyze the user's responses from the mock interview.
+
+🛑 Important Rules:
+1. If the user did not provide meaningful answers (less than 20 words or very short / empty responses), respond ONLY with:
+{
+  "feedback": {
+    "rating": null,
+    "summary": "No meaningful answers provided",
+    "Recommendation": "Not Applicable",
+    "RecommendationMsg": "User did not attempt the questions or responses were too short."
+  }
 }
-}`;
+
+2. Otherwise, provide feedback with the following:
+- Give ratings out of 10 for Technical Skills, Communication, Problem Solving, Experience
+- Provide a 3-line summary of the interview
+- Provide a 1-line recommendation on hire (Recommended / Not Recommended)
+- Be strict and honest. If user performed poorly, do not give positive feedback.
+- Respond ONLY in JSON format as follows:
+
+{
+  "feedback": {
+    "rating": {
+      "technicalSkills": <number>,
+      "communication": <number>,
+      "problemSolving": <number>,
+      "experience": <number>
+    },
+    "summary": "<3 line summary>",
+    "Recommendation": "<Recommended / Not Recommended>",
+    "RecommendationMsg": "<one line message>"
+  }
+}
+
+Your task: Analyze the conversation carefully and follow the rules strictly.
+`;
